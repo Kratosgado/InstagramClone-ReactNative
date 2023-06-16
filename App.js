@@ -1,6 +1,6 @@
-import React from 'react'
-import AuthNavigation from './AuthNavigation'
+import * as React from 'react'
+import HomeScreen from './screens/HomeScreen'
 
 export default function App() {
-  return <AuthNavigation />
+    return <HomeScreen />
 }
