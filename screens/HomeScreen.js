@@ -1,30 +1,54 @@
-import React from "react";
-import { SafeAreaView, ScrollView, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from 'react'
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native'
+import BottomTabs from '../components/home/BottomTabs'
 import Header from '../components/home/Header'
-import Stories from "../components/home/Stories";
-import Post from "../components/home/Post";
+import Post from '../components/home/Post'
+import Stories from '../components/home/Stories'
+import { TABS } from '../data/tabs'
+import {
+  collectionGroup,
+  getFirestore,
+  onSnapshot,
+  getDocs,
+  query,
+  orderBy,
+} from '../firebase'
 
-import { POSTS } from '../data/posts';
+const HomeScreen = ({ navigation }) => {
+  const [ posts, setPosts ] = useState([])
+  const db = getFirestore()
 
-const HomeScreen = () => {
-    return (
-        <SafeAreaView style={styles.container}>
-            <Header />
-            <Stories />
-            <ScrollView>
-                {POSTS.map((post, index) => (
-                    <Post post={post} key={index} />
-                ))}
-            </ScrollView>
-        </SafeAreaView>
+  const getPosts = async () => {
+    const posts = query(
+      collectionGroup(db, 'posts'),
+      orderBy('timestamp', 'desc')
     )
+    const snapshot = await getDocs(posts)
+
+    setPosts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+  }
+
+  useEffect(() => getPosts(), [])
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Header navigation={navigation} />
+      <Stories />
+      <ScrollView>
+        {posts.map((post, index) => (
+          <Post post={post} key={index} />
+        ))}
+      </ScrollView>
+      <BottomTabs icons={TABS} />
+    </SafeAreaView>
+  )
 }
 
 export default HomeScreen
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'black',
-        flex: 1
-    }
+  container: {
+    backgroundColor: 'black',
+    flex: 1,
+  },
 })

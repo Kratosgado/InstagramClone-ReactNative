@@ -1,30 +1,14 @@
 import { initializeApp, getApps } from "firebase/app";
 
 import {
-    getAuth,
-    onAuthStateChanged,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    updateProfile,
-    signOut,
+    getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
+    signInWithEmailAndPassword, updateProfile, signOut,
 } from "firebase/auth";
 
 import {
-    getFirestore,
-    collection,
-    addDoc,
-    setDoc,
-    getDoc,
-    getDocs,
-    doc,
-    onSnapshot,
-    serverTimestamp,
-    query,
-    orderBy,
-    collectionGroup,
-    arrayUnion,
-    arrayRemove,
-    updateDoc,
+    getFirestore, collection, addDoc, setDoc, getDoc, getDocs,
+    doc, onSnapshot, serverTimestamp,
+    query, orderBy, collectionGroup, arrayUnion, arrayRemove, updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
